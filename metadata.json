@@ -1,0 +1,8 @@
+{
+  "name": "Carrier Email Template Plugin",
+  "version": "0.1",
+  "module": "plugins.email_template",
+  "extract": false,
+  "depends_on": ["email_base"],
+  "init_after": []
+}

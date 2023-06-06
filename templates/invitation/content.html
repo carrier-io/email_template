@@ -1,0 +1,49 @@
+{% set integration_modal_id = 'email_template' %}
+{% set integration_collapse_id = 'email_invitation_select' %}
+{#{% set integrations_url = '/~/administration/~/configuration/integrations' %}#}
+
+<div class="row form-group">
+    <div class="mr-2">
+        <label class="custom-toggle">
+            <input type="checkbox"
+                   data-toggle="collapse"
+                   data-target="#{{ integration_collapse_id }}"
+                   @click="() => {
+                        custom_data.invitation_integration = null
+                        $nextTick(() => window.$('.selectpicker').selectpicker('refresh'))
+                    }"
+
+            >
+            <span class="custom-toggle_slider round"></span>
+        </label>
+    </div>
+    <p class="font-h5 font-semibold flex-grow-1">Send invitation email</p>
+</div>
+
+<div class="row form-group">
+    <div class="collapse flex-grow-1" id="{{ integration_collapse_id }}">
+        <div class="mr-2">
+            <h9>Select Email Service</h9>
+            <p>
+                <h13>Or create one in <a
+                        href="{{ integrations_url }}/#{{ integration_modal_id }}">integration
+                    section</a></h13>
+            </p>
+        </div>
+        <div>
+            <select class="selectpicker w-100-imp" data-style="btn-secondary"
+                    v-model="custom_data.invitation_integration"
+            >
+                <option selected :value="null" title="Nothing selected">Nothing selected</option>
+                {% for i in integrations %}
+                    <option
+                            value="{{ i.settings }}"
+                            title="{{ i.config.name }} {% if i.is_default %} - default {% endif %}"
+                    >
+                        {{ i.config.name }} {% if i.is_default %} - default {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
