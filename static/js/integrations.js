@@ -141,7 +141,7 @@ const EmailTemplateIntegrationModal = {
         clear() {
             Object.assign(this.$data, this.initialState())
         },
-        async load(stateData) {
+        load(stateData) {
             Object.assign(this.$data, stateData, {
                 template: this.loadBase64(stateData.template)
             })
@@ -151,14 +151,13 @@ const EmailTemplateIntegrationModal = {
             this.load({...settings, config, is_default, id})
             this.modal.modal('show')
         },
-        handleDelete(id) {
+        async handleDelete(id) {
             this.load({id})
-            this.delete()
+            await this.delete()
         },
-        handleSetDefault(id) {
+        async handleSetDefault(id) {
             this.load({id})
-            this.set_default()
-            this.set_default(local)
+            await this.set_default(local)
         },
         handleError(error_data) {
             error_data.forEach(item => {
@@ -247,7 +246,7 @@ const EmailTemplateIntegrationModal = {
         async set_default(local) {
             this.is_fetching = true
             try {
-                const resp = await fetch(this.api_url + this.id, {
+                const resp = await fetch(this.api_url + this.project_id + '/' + this.id, {
                     method: 'PATCH',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({local})
